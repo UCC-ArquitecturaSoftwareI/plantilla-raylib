@@ -15,9 +15,9 @@ include("cmake/raylib_web.cmake")
 include("cmake/raylib.cmake")
 
 
-add_executable(${EXECUTABLE} ${sources} ${sources_clases})
-add_dependencies(${EXECUTABLE} raylib)
-target_link_libraries(${EXECUTABLE} ${raylib_LDFLAGS})
-target_include_directories(${EXECUTABLE} PRIVATE ${raylib_INCLUDE_DIRS})
+add_executable(${PROJECT_NAME} ${sources} ${sources_clases})
+add_dependencies(${PROJECT_NAME} raylib)
+target_link_libraries(${PROJECT_NAME} ${raylib_LDFLAGS})
+target_include_directories(${PROJECT_NAME} PRIVATE ${raylib_INCLUDE_DIRS})
 
 file(COPY "resources/"  DESTINATION "resources/")

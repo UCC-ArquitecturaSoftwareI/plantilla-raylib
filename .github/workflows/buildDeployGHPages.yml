@@ -1,0 +1,34 @@
+name: Build and Deploy
+on:
+  push:
+    branches:
+      - 'master'
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    container:
+      image: trzeci/emscripten:sdk-incoming-64bit
+
+    steps:
+      - name: Checkout 🛎️ 🛎️
+        uses: actions/checkout@v2 # If you're using actions/checkout@v2 you must set persist-credentials to false in most cases for the deployment to work correctly.
+        with:
+          persist-credentials: false
+
+      - name: Install dependency
+        run: |
+          apt update
+          apt install ninja-build
+
+      - name: Install and Build
+        run: |
+          cmake -Bbuild . -GNinja -DPLATFORM=Web -DCMAKE_TOOLCHAIN_FILE=/emsdk_portable/emscripten/tag-1.38.43/cmake/Modules/Platform/Emscripten.cmake -DCMAKE_VERBOSE_MAKEFILE=ON && \
+          cmake --build build
+          mv build/bin/*.html build/bin/index.html
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          BRANCH: gh-pages # The branch the action should deploy to.
+          FOLDER: build/bin # The folder the action should deploy.
