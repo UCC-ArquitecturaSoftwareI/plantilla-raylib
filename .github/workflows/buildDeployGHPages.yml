@@ -24,8 +24,14 @@ jobs:
       - name: 🔧 Configure
         run: cmake -Bbuild . -GNinja -DPLATFORM=Web -DCMAKE_TOOLCHAIN_FILE=$EMSCRIPTEN/cmake/Modules/Platform/Emscripten.cmake -DCMAKE_VERBOSE_MAKEFILE=ON
 
-      - name: ⛏️ Build 
+      - name: ⛏️ Build
         run: cmake --build build
+      - name: ⛏️ DEBUG
+        run: |
+          pwd
+          git --version
+          git remote -v
+          git status
 
       - name: 🚀 Deploy 
         uses: JamesIves/github-pages-deploy-action@3.4.1
