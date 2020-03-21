@@ -22,7 +22,7 @@ jobs:
 
       - name: Install and Build
         run: |
-          cmake -Bbuild . -GNinja -DPLATFORM=Web -DCMAKE_TOOLCHAIN_FILE=/emsdk_portable/emscripten/tag-1.38.43/cmake/Modules/Platform/Emscripten.cmake -DCMAKE_VERBOSE_MAKEFILE=ON && \
+          cmake -Bbuild . -GNinja -DPLATFORM=Web -DCMAKE_TOOLCHAIN_FILE=$EMSCRIPTEN/cmake/Modules/Platform/Emscripten.cmake -DCMAKE_VERBOSE_MAKEFILE=ON && \
           cmake --build build
           mv build/bin/*.html build/bin/index.html
 
