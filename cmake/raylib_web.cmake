@@ -17,4 +17,6 @@ if(${PLATFORM} MATCHES "Web")
     # The local resources path needs to be mapped to /resources virtual path
     string(APPEND resources_dir "@resources")
     set_target_properties(${example_name} PROPERTIES LINK_FLAGS "--preload-file ${resources_dir}")
+
+
 endif()

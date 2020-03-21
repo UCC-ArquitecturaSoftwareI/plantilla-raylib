@@ -22,8 +22,4 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${raylib_INCLUDE_DIRS})
 
 file(COPY "resources/"  DESTINATION "resources/")
 
-ADD_CUSTOM_COMMAND(TARGET ${PROJECT_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy
-        ${CMAKE_BINARY_DIR}/bin/${PROJECT_NAME}.html
-        ${CMAKE_BINARY_DIR}/bin/index.html
-        COMMENT "Copying 'test' library to '${COPY_TO_PATH}'")
+include("cmake/raylib_web_post.cmake")
