@@ -7,7 +7,7 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     container:
-      image: trzeci/emscripten:sdk-incoming-64bit
+      image: trzeci/emscripten:1.39.4-ubuntu
 
     steps:
       - name: 🛎️ Checkout
@@ -16,7 +16,16 @@ jobs:
           persist-credentials: false
 
       - name: 🧰 Installing Tools
-        run: apt-get update && apt-get install -y ninja-build rsync
+        run: |
+          apt-get update && apt-get install -y ninja-build rsync
+          wget https://github.com/Kitware/CMake/releases/download/v3.17.0/cmake-3.17.0.tar.gz
+          tar -xzf cmake-3.17.0.tar.gz
+          cd cmake-3.17.0/
+          ./configure
+          make
+          make install
+          update-alternatives --install /usr/bin/cmake cmake /usr/local/bin/cmake 1 --force
+          cmake --version
 
       - name: 🔧 Configure
         run: cmake -Bbuild . -GNinja -DPLATFORM=Web -DCMAKE_TOOLCHAIN_FILE=$EMSCRIPTEN/cmake/Modules/Platform/Emscripten.cmake -DCMAKE_VERBOSE_MAKEFILE=ON
