@@ -16,9 +16,7 @@ jobs:
           persist-credentials: false
 
       - name: 🧰 Installing Tools
-        run: |
-          apt update
-          apt install ninja-build
+        run: apt-get update && apt-get install -y ninja-build rsync
 
       - name: 🔧 Configure
         run: cmake -Bbuild . -GNinja -DPLATFORM=Web -DCMAKE_TOOLCHAIN_FILE=$EMSCRIPTEN/cmake/Modules/Platform/Emscripten.cmake -DCMAKE_VERBOSE_MAKEFILE=ON
