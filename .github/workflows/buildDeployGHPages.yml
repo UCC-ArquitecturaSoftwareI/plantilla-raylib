@@ -24,12 +24,6 @@ jobs:
 
       - name: ⛏️ Build
         run: cmake --build build
-      - name: ⛏️ DEBUG
-        run: |
-          pwd
-          git --version
-          git remote -v
-          git status
 
       - name: 🚀 Deploy 
         uses: JamesIves/github-pages-deploy-action@3.4.1

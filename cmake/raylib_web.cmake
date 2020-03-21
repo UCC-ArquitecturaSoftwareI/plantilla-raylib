@@ -14,9 +14,6 @@ if(${PLATFORM} MATCHES "Web")
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
     #set(EXECUTABLE 'index')
 
-    # The local resources path needs to be mapped to /resources virtual path
-    string(APPEND resources_dir "@resources")
-    set_target_properties(${example_name} PROPERTIES LINK_FLAGS "--preload-file ${resources_dir}")
 
 
 endif()
