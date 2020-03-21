@@ -10,23 +10,23 @@ jobs:
       image: trzeci/emscripten:sdk-incoming-64bit
 
     steps:
-      - name: Checkout 🛎️
+      - name: 🛎️ Checkout
         uses: actions/checkout@v2 # If you're using actions/checkout@v2 you must set persist-credentials to false in most cases for the deployment to work correctly.
         with:
           persist-credentials: false
 
-      - name: Installing Tools 🧰
+      - name: 🧰 Installing Tools
         run: |
           apt update
           apt install ninja-build
 
-      - name: Configure 🔧
-        run: cmake -Bbuild . -GNinja -DPLATFORM=Web -DCMAKE_TOOLCHAIN_FILE=$EMSCRIPTEN/cmake/Modules/Platform/Emscripten.cmake -DCMAKE_VERBOSE_MAKEFILE=ON && \
+      - name: 🔧 Configure
+        run: cmake -Bbuild . -GNinja -DPLATFORM=Web -DCMAKE_TOOLCHAIN_FILE=$EMSCRIPTEN/cmake/Modules/Platform/Emscripten.cmake -DCMAKE_VERBOSE_MAKEFILE=ON
 
-      - name: Build ⛏️
+      - name: ⛏️ Build 
         run: cmake --build build
 
-      - name: Deploy 🚀
+      - name: 🚀 Deploy 
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
