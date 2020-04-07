@@ -1,6 +1,8 @@
 #include <raylib.h>
+#include <iostream>
 
 #include "clases/Nave.h"
+#include "clases/Mapa.h"
 
 #if defined(PLATFORM_WEB) // Para crear HTML5
 #include <emscripten/emscripten.h>
@@ -11,6 +13,7 @@ const int screenHeight = 450;
 // Variables Globales
 Music music;
 Nave *player;
+Mapa *mapa;
 
 static void UpdateDrawFrame(void);          // Función dedicada a operar cada frame
 
@@ -23,7 +26,9 @@ int main() {
     music = LoadMusicStream("resources/Cyberpunk Moonlight Sonata.mp3");
 
     PlayMusicStream(music);
-    player = new Nave("resources/ship.png", Vector2{screenWidth / 2, screenHeight / 2});
+    player = new Nave("resources/ship.png", Vector2{screenWidth / 2, 280});
+
+    mapa = new Mapa("resources/mapa.png");
 
 
 #if defined(PLATFORM_WEB)  // Para versión Web.
@@ -53,13 +58,29 @@ int main() {
 static void UpdateDrawFrame(void) {
 
     // siempre hay que reproducir la musica que esta actualmente
-    UpdateMusicStream(music);
+    // UpdateMusicStream(music);
 
     // Verifico Entradas de eventos.
-    if (IsKeyDown(KEY_RIGHT)) player->move_x(2.0f);
-    if (IsKeyDown(KEY_LEFT)) player->move_x(-2.0f);
-    if (IsKeyDown(KEY_UP)) player->move_y(-2.0f);
-    if (IsKeyDown(KEY_DOWN)) player->move_y(2.0f);
+    if (IsKeyDown(KEY_RIGHT)) {
+        if (player->getNavePos().x > 600)
+            mapa->setX(-4);
+        else
+            player->move_x(4);
+    }
+    if (IsKeyDown(KEY_LEFT)) {
+        if (player->getNavePos().x < 200)
+            mapa->setX(4);
+        else
+            player->move_x(-4);
+    }
+    if (IsKeyDown(KEY_UP)) {
+        //player->move_y(-2.0f);
+        //mapa_y -= 5;
+    }
+    if (IsKeyDown(KEY_DOWN)) {
+        //player->move_y(2.0f);
+        //mapa_y += 5;
+    }
 
 
     // Comienzo a dibujar
@@ -68,6 +89,8 @@ static void UpdateDrawFrame(void) {
     ClearBackground(RAYWHITE); // Limpio la pantalla con blanco
 
     // Dibujo todos los elementos del juego.
+
+    mapa->dibujar();
     player->draw();
     DrawText("Inicio", 20, 20, 40, LIGHTGRAY);
 

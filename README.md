@@ -14,5 +14,10 @@ para deployear la versión HTML5 del juego en gh-pages del mismo repositorio.
 
 
 
+## Assets
+
+Using Kenney plataform delux  https://www.kenney.nl/assets/platformer-art-deluxe
+
+
 [gh-pages]:https://rmarku.github.io/plantilla-raylib/
 [badge]:https://github.com/rmarku/plantilla-raylib/workflows/Build%20and%20Deploy/badge.svg
