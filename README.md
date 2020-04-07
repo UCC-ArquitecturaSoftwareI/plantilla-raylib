@@ -14,7 +14,7 @@ para deployear la versión HTML5 del juego en gh-pages del mismo repositorio.
 
 
 
-## Assets
+## Assets 
 
 Using Kenney plataform delux  https://www.kenney.nl/assets/platformer-art-deluxe
 
