@@ -1,8 +1,6 @@
 #include <raylib.h>
-#include <iostream>
 
 #include "clases/Nave.h"
-#include "clases/Mapa.h"
 
 #if defined(PLATFORM_WEB) // Para crear HTML5
 #include <emscripten/emscripten.h>
@@ -13,9 +11,6 @@ const int screenHeight = 450;
 // Variables Globales
 Music music;
 Nave *player;
-Mapa *mapa;
-
-Camera2D camera = {0};
 
 static void UpdateDrawFrame(void);          // Función dedicada a operar cada frame
 
@@ -28,16 +23,7 @@ int main() {
     music = LoadMusicStream("resources/Cyberpunk Moonlight Sonata.mp3");
 
     PlayMusicStream(music);
-    mapa = new Mapa("resources/mapa/mapa.json");
-
-    player = new Nave("resources/ship.png", mapa->player_init_pos);
-
-
-    // Configuro la Cámara
-    camera.target = {player->getNavePos().x, player->getNavePos().y - 110}; // Número Mágico 110.
-    camera.offset = (Vector2) {screenWidth / 2, screenHeight / 2};
-    camera.rotation = 0.0f;
-    camera.zoom = 1.0f;
+    player = new Nave("resources/ship.png", Vector2{screenWidth / 2, screenHeight / 2});
 
 
 #if defined(PLATFORM_WEB)  // Para versión Web.
@@ -67,37 +53,22 @@ int main() {
 static void UpdateDrawFrame(void) {
 
     // siempre hay que reproducir la musica que esta actualmente
-    // UpdateMusicStream(music);
+    UpdateMusicStream(music);
 
     // Verifico Entradas de eventos.
-    if (IsKeyDown(KEY_RIGHT)) {
-        player->move_x(4);
-        if (player->getNavePos().x > camera.target.x + 200)
-            camera.target.x = player->getNavePos().x - 200;
-    }
-    if (IsKeyDown(KEY_LEFT)) {
-        player->move_x(-4);
-        if (player->getNavePos().x < camera.target.x - 200)
-            camera.target.x = player->getNavePos().x + 200;
-    }
-    if (IsKeyDown(KEY_UP)) {
-        // Saltar??
-    }
-    if (IsKeyDown(KEY_DOWN)) {
-        // Nada
-    }
+    if (IsKeyDown(KEY_RIGHT)) player->move_x(2.0f);
+    if (IsKeyDown(KEY_LEFT)) player->move_x(-2.0f);
+    if (IsKeyDown(KEY_UP)) player->move_y(-2.0f);
+    if (IsKeyDown(KEY_DOWN)) player->move_y(2.0f);
+
 
     // Comienzo a dibujar
     BeginDrawing();
 
+    ClearBackground(RAYWHITE); // Limpio la pantalla con blanco
 
-    BeginMode2D(camera);
-    {
-        // Dibujo todos los elementos del juego.
-        mapa->dibujar();
-        player->draw();
-    }
-    EndMode2D();
+    // Dibujo todos los elementos del juego.
+    player->draw();
     DrawText("Inicio", 20, 20, 40, LIGHTGRAY);
 
     // Finalizo el dibujado
