@@ -11,6 +11,9 @@ class Nave {
     Texture2D nave;
     Vector2 nave_pos;
 public:
+    const Vector2 &getNavePos() const;
+
+public:
     Nave(std::string text, const Vector2 &navePos);
 
     void draw();
