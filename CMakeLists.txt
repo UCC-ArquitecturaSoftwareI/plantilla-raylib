@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.12)
 project(raylibTemplate)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 
 # Get the source toegher
 file(GLOB sources *.cpp)
@@ -19,6 +19,6 @@ add_dependencies(${PROJECT_NAME} raylib)
 target_link_libraries(${PROJECT_NAME} ${raylib_LDFLAGS})
 target_include_directories(${PROJECT_NAME} PRIVATE ${raylib_INCLUDE_DIRS})
 
-file(COPY "resources/"  DESTINATION "resources/")
+file(COPY "resources/" DESTINATION "resources/")
 
 include("cmake/raylib_web_post.cmake")

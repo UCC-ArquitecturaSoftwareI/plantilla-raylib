@@ -8,19 +8,18 @@
 
 #include <string>
 #include <raylib.h>
+#include "../libs/tileson.hpp"
 
 class Mapa {
-    Texture2D dibujo;
-    int y;
-    int x;
+    tson::Map map;
+    Texture2D map_tex;
+    tson::Tileset *map_tileset;
+
 public:
-    Mapa(std::string img);
-
-    void setX(int x);
-
-    void setY(int y);
+    Mapa(std::string file);
 
     void dibujar();
+    Vector2 player_init_pos;
 };
 
 

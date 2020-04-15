@@ -15,6 +15,8 @@ Music music;
 Nave *player;
 Mapa *mapa;
 
+Camera2D camera = {0};
+
 static void UpdateDrawFrame(void);          // Función dedicada a operar cada frame
 
 int main() {
@@ -26,9 +28,16 @@ int main() {
     music = LoadMusicStream("resources/Cyberpunk Moonlight Sonata.mp3");
 
     PlayMusicStream(music);
-    player = new Nave("resources/ship.png", Vector2{screenWidth / 2, 280});
+    mapa = new Mapa("resources/mapa/mapa.json");
 
-    mapa = new Mapa("resources/mapa.png");
+    player = new Nave("resources/ship.png", mapa->player_init_pos);
+
+
+    // Configuro la Cámara
+    camera.target = {player->getNavePos().x, player->getNavePos().y - 110}; // Número Mágico 110.
+    camera.offset = (Vector2) {screenWidth / 2, screenHeight / 2};
+    camera.rotation = 0.0f;
+    camera.zoom = 1.0f;
 
 
 #if defined(PLATFORM_WEB)  // Para versión Web.
@@ -62,36 +71,33 @@ static void UpdateDrawFrame(void) {
 
     // Verifico Entradas de eventos.
     if (IsKeyDown(KEY_RIGHT)) {
-        if (player->getNavePos().x > 600)
-            mapa->setX(-4);
-        else
-            player->move_x(4);
+        player->move_x(4);
+        if (player->getNavePos().x > camera.target.x + 200)
+            camera.target.x = player->getNavePos().x - 200;
     }
     if (IsKeyDown(KEY_LEFT)) {
-        if (player->getNavePos().x < 200)
-            mapa->setX(4);
-        else
-            player->move_x(-4);
+        player->move_x(-4);
+        if (player->getNavePos().x < camera.target.x - 200)
+            camera.target.x = player->getNavePos().x + 200;
     }
     if (IsKeyDown(KEY_UP)) {
-        //player->move_y(-2.0f);
-        //mapa_y -= 5;
+        // Saltar??
     }
     if (IsKeyDown(KEY_DOWN)) {
-        //player->move_y(2.0f);
-        //mapa_y += 5;
+        // Nada
     }
-
 
     // Comienzo a dibujar
     BeginDrawing();
 
-    ClearBackground(RAYWHITE); // Limpio la pantalla con blanco
 
-    // Dibujo todos los elementos del juego.
-
-    mapa->dibujar();
-    player->draw();
+    BeginMode2D(camera);
+    {
+        // Dibujo todos los elementos del juego.
+        mapa->dibujar();
+        player->draw();
+    }
+    EndMode2D();
     DrawText("Inicio", 20, 20, 40, LIGHTGRAY);
 
     // Finalizo el dibujado
