@@ -20,14 +20,14 @@ int main() {
     InitAudioDevice();              // Initialize audio device
 
     /// Ejemplo de utilización de audio.
-    music = LoadMusicStream("resources/Cyberpunk Moonlight Sonata.mp3");
+    music = LoadMusicStream("resources/kc-basslinetech.xm");
 
     PlayMusicStream(music);
     player = new Nave("resources/ship.png", Vector2{screenWidth / 2, screenHeight / 2});
 
 
 #if defined(PLATFORM_WEB)  // Para versión Web.
-    emscripten_set_main_loop(UpdateDrawFrame, 0, 1);
+    emscripten_set_main_loop(UpdateDrawFrame, 30, 1);
 #else
     SetTargetFPS(60);   // Set our game to run at 60 frames-per-second
     // Main loop
@@ -56,10 +56,10 @@ static void UpdateDrawFrame(void) {
     UpdateMusicStream(music);
 
     // Verifico Entradas de eventos.
-    if (IsKeyDown(KEY_RIGHT)) player->move_x(2.0f);
-    if (IsKeyDown(KEY_LEFT)) player->move_x(-2.0f);
-    if (IsKeyDown(KEY_UP)) player->move_y(-2.0f);
-    if (IsKeyDown(KEY_DOWN)) player->move_y(2.0f);
+    if (IsKeyDown(KEY_UP)) player->move(-2.0f);
+    if (IsKeyDown(KEY_DOWN)) player->move(2.0f);
+    if (IsKeyDown(KEY_RIGHT)) player->rotar(5.0f);
+    if (IsKeyDown(KEY_LEFT)) player->rotar(-5.0f);
 
 
     // Comienzo a dibujar

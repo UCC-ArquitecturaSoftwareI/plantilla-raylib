@@ -1,6 +1,6 @@
 
 
-find_package(raylib 2.6 QUIET) # Let CMake search for a raylib-config.cmake
+find_package(raylib 3.0 QUIET) # Let CMake search for a raylib-config.cmake
 
 
 if (NOT raylib_FOUND) # if coudnt find it, download and install it
@@ -8,7 +8,7 @@ if (NOT raylib_FOUND) # if coudnt find it, download and install it
 
     FetchContent_Declare(
             raylib
-            URL https://github.com/raysan5/raylib/archive/2.6.0.zip
+            URL https://github.com/raysan5/raylib/archive/3.0.0.zip
     )
 
     FetchContent_GetProperties(raylib)

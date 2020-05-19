@@ -1,12 +1,19 @@
 
 if(${PLATFORM} MATCHES "Web")
+
+    file(COPY "resources/"  DESTINATION "${CMAKE_BINARY_DIR}/bin/resources/")
+
     set(PLATFORM_CPP "PLATFORM_WEB")
     set(GRAPHICS "GRAPHICS_API_OPENGL_ES2")
     set(CMAKE_STATIC_LIBRARY_SUFFIX ".bc")
 
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Os -s USE_GLFW=3 -s ASSERTIONS=1 -s WASM=1 -s EMTERPRETIFY=1 -s EMTERPRETIFY_ASYNC=1")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O2 -s WASM=1 -s USE_GLFW=3 -s FORCE_FILESYSTEM=1 -s ASYNCIFY")
     # Since WASM is used, ALLOW_MEMORY_GROWTH has no extra overheads
-    # set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -s ALLOW_MEMORY_GROWTH=1 --no-heap-copy")
+    #set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -s ALLOW_MEMORY_GROWTH=1 --no-heap-copy")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} --preload-file ${CMAKE_BINARY_DIR}/bin/resources/")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -s TOTAL_MEMORY=268435456")
+    #set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -s SINGLE_FILE=1 -s MODULARIZE=1 -s NO_EXIT_RUNTIME=1")
+    # set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -s USE_PTHREADS=1 -s PTHREAD_POOL_SIZE=8")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} --shell-file ${CMAKE_SOURCE_DIR}/resources/shell.html")
     set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS}")
 

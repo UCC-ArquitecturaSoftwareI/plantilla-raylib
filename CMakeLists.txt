@@ -10,8 +10,8 @@ file(GLOB sources *.cpp)
 file(GLOB sources_clases clases/*.cpp)
 
 
-include("cmake/raylib_web.cmake")
 include("cmake/raylib.cmake")
+include("cmake/raylib_web.cmake")
 
 
 add_executable(${PROJECT_NAME} ${sources} ${sources_clases} clases/Nave.cpp clases/Nave.h)
